@@ -139,7 +139,7 @@
 </div>
 
 @endsection
-
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>  
 <script type="text/javascript">
   $(function () {
@@ -194,31 +194,47 @@
             });
           }
         });
-    });      
-   
+    }); 
+         
     $("#formAddBarang").submit(function(e) {
         e.preventDefault();
         const fd = new FormData(this);
-        $("#saveBtn").text('Adding...');
-        $.ajax({
-          data: $('#formAddBarang').serialize(),
-          url: "{{ url('barangs') }}",
-          method: 'POST',
-          data: fd,
-          cache: false,
-          contentType: false,
-          processData: false,
-          dataType: 'json',
-          success: function (data) {
-              $('#formAddBarang').trigger("reset");
-              $('#formTambahBarang').modal('hide');
-              table.draw();           
-          },
-          error: function (data) {
-              console.log('Error:', data);
-              $('#saveBtn').html('Save Changes');
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to added this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, add data!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            $.ajax({
+                data: $('#formAddBarang').serialize(),
+                url: "{{ url('barangs') }}",
+                method: 'POST',
+                data: fd,
+                cache: false,
+                contentType: false,
+                processData: false,
+                dataType: 'json',
+                success: function (data) {
+                    $('#formAddBarang').trigger("reset");
+                    $('#formTambahBarang').modal('hide');
+                    Swal.fire(
+                    'Added!',
+                    'Your file has been added.',
+                    'success'
+                    )
+                    table.draw();           
+                },
+                error: function (data) {
+                    console.log('Error:', data);
+                    $('#saveBtn').html('Save Changes');
+                }
+            });           
           }
-      });
+        });
     });
 
     $("#formUpdateBarang").submit(function(e) {
@@ -226,42 +242,73 @@
         const formData = new FormData(this);
         formData.append('_method', 'put');
         var id = $('#id_barang').val();
-        $("#updateBtn").text('Updating...');
-        $.ajax({
-          data: $('#formUpdateBarang').serialize(),
-          url: "{{ url('barangs') }}" +"/" + id,
-          method: 'POST',
-          data: formData,
-          cache: false,
-          contentType: false,
-          processData: false,
-          dataType: 'json',
-          success: function (data) {
-              $('#formUbahBarang').modal('hide');
-              table.draw();           
-          },
-          error: function (data) {
-              console.log('Error:', data);
-              $('#updateBtn').html('Save Changes');
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to update this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, update it!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            $.ajax({
+                data: $('#formUpdateBarang').serialize(),
+                url: "{{ url('barangs') }}" +"/" + id,
+                method: 'POST',
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                dataType: 'json',
+                success: function (data) {
+                    $('#formUbahBarang').modal('hide');
+                    Swal.fire(
+                    'Updated!',
+                    'Your file has been updated.',
+                    'success'
+                    )
+                    table.draw();           
+                },
+                error: function (data) {
+                    console.log('Error:', data);
+                    $('#updateBtn').html('Save Changes');
+                }
+            });           
           }
-      });
+        });
     });
 
 
     $('body').on('click', '.deleteBarang', function () {
-        var id_barang = $(this).data("id");
-        confirm("Are You sure want to delete !");
-        
-        $.ajax({
-            type: "DELETE",
-            url: "{{ url    ('barangs') }}"+'/'+id_barang,
-            success: function (data) {
-                table.draw();
-            },
-            error: function (data) {
-                console.log('Error:', data);
-            }
+        var id = $(this).data("id");
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            $.ajax({
+              url: "{{ url('barangs') }}"+'/'+id,
+              method: 'POST',
+              data:{'_method':'DELETE'},
+              success: function(response) {
+                console.log(response);
+                Swal.fire(
+                  'Deleted!',
+                  'Your file has been deleted.',
+                  'success'
+                )
+                table.draw(); 
+              }
+            });
+          }
         });
+       
     });
 
   });

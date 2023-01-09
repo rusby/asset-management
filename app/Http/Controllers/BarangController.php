@@ -22,7 +22,7 @@ class BarangController extends Controller
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
-                        $actionBtn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm editBarang " data-id="'.json_decode($row->id).'">Edit</a> <a href="javascript:void(0)" class="delete btn btn-danger btn-sm" data-id="'.json_decode($row->id).'">Delete</a>';
+                        $actionBtn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm editBarang " data-id="'.json_decode($row->id).'">Edit</a> <a href="javascript:void(0)" class="deleteBarang btn btn-danger btn-sm" data-id="'.json_decode($row->id).'">Delete</a>';
                         return $actionBtn;
                     })
                     ->rawColumns(['action'])
@@ -65,7 +65,7 @@ class BarangController extends Controller
 
     public function show(Barang $barang)
     {
-        return view('barangs.index', compact('barang'));
+        return view('barang.index', compact('barang'));
     }
     
     public function edit(Barang $barang)
@@ -114,7 +114,7 @@ class BarangController extends Controller
     public function destroy(Barang $barang)
     {
         $barang->delete();
-        return redirect()->route('barang.index')->with('success', 'Data Barang deleted successfully');
+        return redirect()->route('barangs.index')->with('success', 'Data Barang deleted successfully');
 
     }
 
