@@ -18,14 +18,10 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-// Route::middleware('auth:sanctum')->group( function () {
-//     Route::apiResource('/users', App\Http\Controllers\Api\UsersController::class);
-//     Route::apiResource('/barangs', App\Http\Controllers\Api\BarangController::class);
-//     Route::apiResource('/event_panitias', App\Http\Controllers\Api\EventPanitiaController::class);
-// });
-
-Route::apiResource('/users', App\Http\Controllers\Api\UsersController::class);
-Route::apiResource('/barangs', App\Http\Controllers\Api\BarangController::class);
-Route::apiResource('/events', App\Http\Controllers\Api\EventsController::class);
-Route::apiResource('/events_details', App\Http\Controllers\Api\EventDetailController::class);
-Route::apiResource('/event_panitias', App\Http\Controllers\Api\EventPanitiaController::class);
+Route::group(['as' => 'api.'], function () {
+    Route::apiResource('/barangs', App\Http\Controllers\Api\BarangController::class);
+    Route::apiResource('/events', App\Http\Controllers\Api\EventsController::class);
+    Route::apiResource('/events_details', App\Http\Controllers\Api\EventDetailController::class);
+    Route::apiResource('/event_panitias', App\Http\Controllers\Api\EventPanitiaController::class);
+    Route::apiResource('/users', App\Http\Controllers\Api\UsersController::class);
+  });
