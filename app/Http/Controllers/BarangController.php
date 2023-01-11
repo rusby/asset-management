@@ -6,6 +6,7 @@ use App\Models\Barang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use DataTables;
 
 class BarangController extends Controller
@@ -22,7 +23,7 @@ class BarangController extends Controller
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
-                        $actionBtn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm editBarang " data-id="'.json_decode($row->id).'">Edit</a> <a href="javascript:void(0)" class="deleteBarang btn btn-danger btn-sm" data-id="'.json_decode($row->id).'">Delete</a>';
+                        $actionBtn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm editBarang " data-id="'.json_decode($row->id).'">Edit</a> <a href="javascript:void(0)" class="deleteBarang btn btn-danger btn-sm" data-id="'.json_decode($row->id).'">Delete</a> <a href="javascript:void(0)" class="btn btn-info btn-sm generateCode " data-id="'.json_decode($row->id).'">Generate</a>';
                         return $actionBtn;
                     })
                     ->rawColumns(['action'])
@@ -32,11 +33,6 @@ class BarangController extends Controller
         return view('barang.index');
     }
 
-    public function create()
-    {
-        return view('barang.create');
-    }
-
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -44,6 +40,10 @@ class BarangController extends Controller
             'nama_barang' => 'required',
             'deskripsi'   => 'required',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
 
         $gambar = "";
         if (request()->hasFile('gambar')){
@@ -63,15 +63,17 @@ class BarangController extends Controller
         return redirect()->route('barangs.index')->with('success', 'Barang Added successfully.');
     }
 
-    public function show(Barang $barang)
-    {
-        return view('barang.index', compact('barang'));
-    }
-    
     public function edit(Barang $barang)
     {
-		$barang = Barang::find($barang);
-		return response()->json($barang);
+		$barang = Barang::find($barang)->toArray();
+        $dataSet = [];
+        foreach ($barang as $b) {
+            $qrcode = QrCode::size(200)->generate($b['id']);
+            // $qrcode =QrCode::generate($b['id'], public_path('qrcode/'.$b['id'].'.svg') );
+            $b['qrcode'] = strval( $qrcode );
+            $dataSet[] =   $b;
+        }
+		return response()->json($dataSet);
     }
 
     public function update(Request $request, Barang $barang)
@@ -137,5 +139,4 @@ class BarangController extends Controller
         );
         return $dataArr; 
     }
-
 }

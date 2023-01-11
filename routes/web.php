@@ -19,8 +19,6 @@ Route::get('/', function () {
 
 Auth::routes();
 
-// Route::get('barangs/list', [BarangController::class, 'getBarangs'])->name('barangs.list');
 Route::resource('barangs', App\Http\Controllers\BarangController::class);
-
+Route::resource('events', App\Http\Controllers\EventController::class);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-// Route::g et('barangs', [App\Http\Controllers\BarangController::class, 'index'])->name('barangs.index');

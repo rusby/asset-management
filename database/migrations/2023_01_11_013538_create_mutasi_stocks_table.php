@@ -13,11 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('event_details', function (Blueprint $table) {
+        Schema::create('mutasi_stocks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_event');
             $table->foreignId('id_barang');
-            $table->enum('status', ['Masuk', 'Keluar'])->default('Masuk');
+            $table->foreignId('id_event');
+            $table->enum('status_mutasi', ['Masuk', 'Keluar'])->default('Masuk');
+            $table->string('background');
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('event_details');
+        Schema::dropIfExists('mutasi_stocks');
     }
 };

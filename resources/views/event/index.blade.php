@@ -2,39 +2,16 @@
 
 @section('content')
 <style>
-    .modal-barang {
+    .modal-event {
         width: 750px;
         right: 125px;
     }
-
-    @media screen {
-        #printSection {
-            display: none;
-        }
-    }
-
-    @media print {
-        body * {
-            visibility:hidden;
-        }
-        #printSection, #printSection * {
-            visibility:visible;
-        }
-        #printSection {
-            padding:20px;
-            position:absolute;
-            left:0;
-            top:0;
-        }
-    }
-
-
 </style>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">List Barang</div>
+                <div class="card-header">List Event</div>
                 <div class="card-body">
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
@@ -43,15 +20,15 @@
                     @endif
 
                     <div class="container mt-3">
-                        <a class="btn btn-success" href="javascript:void(0)" id="tambahBarang"> Tambah Barang</a>
+                        <a class="btn btn-success" href="javascript:void(0)" id="tambahEvent"> Tambah Event</a>
                         <div class="table-responsive mt-2">
                             <table class="table table-bordered yajra-datatable">
                                 <thead>
                                     <tr>
                                         <th>No</th>
                                         <th>Name</th>
-                                        <th>Deskripsi</th>
-                                        <th>Status</th>
+                                        <th>Lokasi</th>
+                                        <th>Jadwal</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -67,39 +44,30 @@
 </div>
 
 <!-- form tambah barang -->
-<div id="formTambahBarang" class="modal fade" tabindex="-1" aria-hidden="true">
+<div id="formTambahEvent" class="modal fade" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog ">
-        <div class="modal-content modal-barang ">
+        <div class="modal-content modal-event ">
             <div class="modal-header">
                 <h4 class="modal-title" id="modelHeading"></h4>
             </div>
             <div class="modal-body">
-                <form id="formAddBarang" name="formAddBarang" class="form-horizontal" enctype="multipart/form-data">
+                <form id="formAddEvent" name="formAddEvent" class="form-horizontal" enctype="multipart/form-data">
                     <div class="form-group mt-2">
-                        <label for="nama_barang" class="col-sm-2 control-label">Nama Barang</label>
+                        <label for="nama_event" class="col-sm-2 control-label">Nama Event</label>
                         <div class="col-sm-12 mt-1">
-                            <input type="text" class="form-control" id="nama_barang" name="nama_barang" placeholder="Enter Nama Barang" value="" required="">
+                            <input type="text" class="form-control" id="nama_event" name="nama_event" placeholder="Enter Nama Event" value="" required="">
                         </div>
                     </div>
                     <div class="form-group mt-2">
-                        <label class="col-sm-2 control-label">Deskripsi</label>
+                        <label class="col-sm-2 control-label">Lokasi</label>
                         <div class="col-sm-12 mt-1">
-                            <textarea id="deskripsi" name="deskripsi" required="" placeholder="Enter Deskripsi" class="form-control"></textarea>
+                            <textarea id="lokasi" name="lokasi" required="" placeholder="Enter lokasi" class="form-control"></textarea>
                         </div>
                     </div>
                     <div class="form-group mt-2">
-                        <label class="col-sm-2 control-label">Status</label>
+                        <label class="col-sm-2 control-label">Jadwal</label>
                         <div class="col-sm-12 mt-1">
-                            <select name="status_in" class="form-control" class="status_in" id="status_in">
-                                <option value="Milik">Milik</option>
-                                <option value="Sewa">Sewa</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group mt-2">
-                        <label class="col-sm-2 control-label">File</label>
-                        <div class="col-sm-12 mt-1">
-                            <input id="gambar" type="file" name="gambar" class="form-control">
+                        <input type="text" class="form-control" name="jadwal" placeholder="Enter Jadwal" id="jadwal">
                         </div>
                     </div>
                     <div class="col-sm-offset-2 col-sm-10 mt-2">
@@ -114,40 +82,31 @@
 </div>
 
 <!-- Form edit barang -->
-<div id="formUbahBarang" class="modal fade" tabindex="-1" aria-hidden="true">
+<div id="formUbahEvent" class="modal fade" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog ">
-        <div class="modal-content modal-barang ">
+        <div class="modal-content modal-event ">
             <div class="modal-header">
                 <h4 class="modal-title" id="modelHeading"></h4>
             </div>
             <div class="modal-body">
-                <form id="formUpdateBarang" method="POST" name="formUpdateBarang" class="form-horizontal" enctype="multipart/form-data">
-                   <input type="hidden" name="id_barang" id="id_barang">
+                <form id="formUpdateEvent" method="POST" name="formUpdateEvent" class="form-horizontal" enctype="multipart/form-data">
+                   <input type="hidden" name="id_event" id="id_event">
                     <div class="form-group mt-2">
-                        <label for="nama_barang_edit" class="col-sm-2 control-label">Nama Barang</label>
+                        <label for="nama_event_edit" class="col-sm-2 control-label">Nama Event</label>
                         <div class="col-sm-12 mt-1">
-                            <input type="text" class="form-control" id="nama_barang_edit" name="nama_barang_edit" placeholder="Enter Nama Barang" value="" required="">
+                            <input type="text" class="form-control" id="nama_event_edit" name="nama_event_edit" placeholder="Enter Nama Event" value="" required="">
                         </div>
                     </div>
                     <div class="form-group mt-2">
-                        <label class="col-sm-2 control-label">Deskripsi</label>
+                        <label class="col-sm-2 control-label">lokasi</label>
                         <div class="col-sm-12 mt-1">
-                            <textarea id="deskripsi_edit" name="deskripsi_edit" required="" placeholder="Enter Deskripsi" class="form-control"></textarea>
+                            <textarea id="lokasi_edit" name="lokasi_edit" required="" placeholder="Enter lokasi" class="form-control"></textarea>
                         </div>
                     </div>
                     <div class="form-group mt-2">
-                        <label class="col-sm-2 control-label">Status</label>
+                        <label class="col-sm-2 control-label">Jadwal</label>
                         <div class="col-sm-12 mt-1">
-                            <select name="status_in_edit" class="form-control" class="status_in_edit" id="status_in_edit">
-                                <option value="Milik">Milik</option>
-                                <option value="Sewa">Sewa</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group mt-2">
-                        <label class="col-sm-2 control-label">File</label>
-                        <div class="col-sm-12 mt-1">
-                            <input id="gambar_edit" type="file" name="gambar_edit" class="form-control">
+                        <input type="text" class="form-control" name="jadwal_edit" placeholder="Enter Jadwal_edit" id="jadwal_edit">
                         </div>
                     </div>
                     <div class="col-sm-offset-2 col-sm-10 mt-2">
@@ -161,37 +120,14 @@
     </div>
 </div>
 
-<!-- Form edit barang -->
-<div id="formGenerateCodeBarang" class="modal fade" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog ">
-        <div class="modal-content modal-barang ">
-            <div class="modal-header">
-                <h4 class="modal-title" id="modelHeading" >QR CODE</h4>
-            </div>
-            <div class="modal-body">
-            <div class="container">
-                <center>
-                <div class="row mt-5 text-center qrcode" id="qrcode">
-                   
-                </div>
-                </center>
-                <div class="col-sm-offset-2 col-sm-12 mt-5">
-                    <input name="idbarang" type="hidden" id="idbarang">
-                    <button type="print" class="btn btn-primary" id="btnPrint" onclick="printQrcode()">Print</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 @endsection
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>  
 <script type="text/javascript">
   $(function () {
+    flatpickr('#jadwal', {dateFormat: "Y-m-d H:i:s"});
+    flatpickr('#jadwal_edit', {dateFormat: "Y-m-d H:i:s"});
+
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -201,12 +137,12 @@
     var table = $('.yajra-datatable').DataTable({
         processing: true,
         serverSide: true,
-        ajax: "{{ route('barangs.index') }}",
+        ajax: "{{ route('events.index') }}",
         columns: [
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-            {data: 'nama_barang', name: 'nama_barang'},
-            {data: 'deskripsi', name: 'deskripsi'},
-            {data: 'status_in', name: 'status_in'},
+            {data: 'nama_event', name: 'nama_event'},
+            {data: 'lokasi', name: 'lokasi'},
+            {data: 'jadwal', name: 'jadwal'},
             {
                 data: 'action', 
                 name: 'id', 
@@ -216,36 +152,34 @@
         ]
     }); 
 
-    $('#tambahBarang').click(function () {
-        // $('#saveBtn').val("tambah-barang");
-        $('#id_barang').val('');
-        $('#formAddBarang').trigger("reset");
-        // $('#modelHeading').html("Tambah Barang");
-        $('#formTambahBarang').modal('show');
+    $('#tambahEvent').click(function () {
+        $('#id_event').val('');
+        $('#formAddEvent').trigger("reset");
+        $('#formTambahEvent').modal('show');
     });
 
 
-    $('body').on('click', '.editBarang', function () {
+    $('body').on('click', '.editEvent', function () {
         var id = $(this).data('id');
         $.ajax({
-          url: "{{ route('barangs.index') }}" +"/" + id+"/edit",
+          url: "{{ route('events.index') }}" +"/" + id+"/edit",
           method: 'get',
           data: { id: id},
           success: function(response) {
-            $('#formUbahBarang').modal('show');
+            $('#formUbahEvent').modal('show');
             $.each(response , function (key, value) {
                 console.log(value.id);
-                $('#id_barang').val(value.id);
-                $('#nama_barang_edit').val(value.nama_barang);
-                $('#deskripsi_edit').val(value.deskripsi);
-                $('#status_in_edit').val(value.status_in);
+                $('#id_event').val(value.id);
+                $('#nama_event_edit').val(value.nama_event);
+                $('#lokasi_edit').val(value.lokasi);
+                $('#jadwal_edit').val(value.jadwal);
 
             });
           }
         });
     }); 
          
-    $("#formAddBarang").submit(function(e) {
+    $("#formAddEvent").submit(function(e) {
         e.preventDefault();
         const fd = new FormData(this);
         Swal.fire({
@@ -259,8 +193,8 @@
         }).then((result) => {
           if (result.isConfirmed) {
             $.ajax({
-                data: $('#formAddBarang').serialize(),
-                url: "{{ url('barangs') }}",
+                data: $('#formAddEvent').serialize(),
+                url: "{{ url('events') }}",
                 method: 'POST',
                 data: fd,
                 cache: false,
@@ -268,8 +202,8 @@
                 processData: false,
                 dataType: 'json',
                 success: function (data) {
-                    $('#formAddBarang').trigger("reset");
-                    $('#formTambahBarang').modal('hide');
+                    $('#formAddEvent').trigger("reset");
+                    $('#formTambahEvent').modal('hide');
                     Swal.fire(
                     'Added!',
                     'Your file has been added.',
@@ -286,11 +220,11 @@
         });
     });
 
-    $("#formUpdateBarang").submit(function(e) {
+    $("#formUpdateEvent").submit(function(e) {
         e.preventDefault();
         const formData = new FormData(this);
         formData.append('_method', 'put');
-        var id = $('#id_barang').val();
+        var id = $('#id_event').val();
         Swal.fire({
           title: 'Are you sure?',
           text: "You won't be able to update this!",
@@ -302,8 +236,8 @@
         }).then((result) => {
           if (result.isConfirmed) {
             $.ajax({
-                data: $('#formUpdateBarang').serialize(),
-                url: "{{ url('barangs') }}" +"/" + id,
+                data: $('#formUpdateEvent').serialize(),
+                url: "{{ url('events') }}" +"/" + id,
                 method: 'POST',
                 data: formData,
                 cache: false,
@@ -311,7 +245,7 @@
                 processData: false,
                 dataType: 'json',
                 success: function (data) {
-                    $('#formUbahBarang').modal('hide');
+                    $('#formUbahEvent').modal('hide');
                     Swal.fire(
                     'Updated!',
                     'Your file has been updated.',
@@ -329,7 +263,7 @@
     });
 
 
-    $('body').on('click', '.deleteBarang', function () {
+    $('body').on('click', '.deleteEvent', function () {
         var id = $(this).data("id");
         Swal.fire({
           title: 'Are you sure?',
@@ -342,7 +276,7 @@
         }).then((result) => {
           if (result.isConfirmed) {
             $.ajax({
-              url: "{{ url('barangs') }}"+'/'+id,
+              url: "{{ url('events') }}"+'/'+id,
               method: 'POST',
               data:{'_method':'DELETE'},
               success: function(response) {
@@ -363,7 +297,7 @@
     $('body').on('click', '.generateCode', function () {
         var id = $(this).data('id');
         $.ajax({
-          url: "{{ route('barangs.index') }}" +"/" + id+"/edit",
+          url: "{{ route('events.index') }}" +"/" + id+"/edit",
           method: 'get',
           data: { id: id},
           success: function(response) {
