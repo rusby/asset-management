@@ -22,7 +22,7 @@ class EventDetailController extends Controller
         $validator = Validator::make($request->all(), [
             'id_event'     => 'required',
             'id_barang' => 'required',
-            'status' => 'required'
+            'status_mutasi' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -32,7 +32,7 @@ class EventDetailController extends Controller
         $eventDetail = EventDetail::create([
             'id_event' => $request->id_event,
             'id_barang' => $request->id_barang,
-            'status' => $request->status,
+            'status_mutasi' => $request->status,
         ]);
 
         return new DataResource(true, 'Data Event Detail Berhasil Ditambahkan!', $eventDetail);
@@ -48,7 +48,7 @@ class EventDetailController extends Controller
         $validator = Validator::make($request->all(), [
             'id_event'     => 'required',
             'id_barang' => 'required',
-            'status' => 'required'
+            'status_mutasi' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -58,7 +58,7 @@ class EventDetailController extends Controller
         $eventDetail->update([
             'id_event' => $request->id_event,
             'id_barang' => $request->id_barang,
-            'status' => $request->status,
+            'status_mutasi' => $request->status,
         ]);
         return new DataResource(true, 'Data Event Detail Berhasil Diubah!', $eventDetail);
     }

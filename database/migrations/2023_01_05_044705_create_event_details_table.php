@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('id_event');
             $table->foreignId('id_barang');
-            $table->enum('status', ['Masuk', 'Keluar'])->default('Masuk');
+            $table->string('background');
+            $table->enum('status_mutasi', ['Masuk', 'Keluar'])->default('Masuk');
             $table->timestamps();
         });
     }

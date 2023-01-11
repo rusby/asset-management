@@ -11,6 +11,7 @@ class EventDetail extends Model
     protected $fillable = [
         'id_event',
         'id_barang',
-        'status',
+        'background',
+        'status_mutasi',
     ];
 }
